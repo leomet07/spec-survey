@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pb, currentUser } from "./lib/pocketbase";
+	import { pb, currentUser } from "$lib/pocketbase";
 
 	async function loginWithGoogle(){
 		// This method initializes a one-off realtime subscription and will
