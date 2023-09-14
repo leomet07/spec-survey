@@ -17,17 +17,15 @@
 	}
 </script>
 
-<main>
-	<h1>Hello World</h1>
-	<button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
-	<button on:click|preventDefault={logout}>Logout</button>
+<h1>Hello World</h1>
+<button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
+<button on:click|preventDefault={logout}>Logout</button>
 
-	{#if $currentUser}
-		<h2>You're logged in with email: {$currentUser.email}</h2>
-	{:else}
-		<h2>You're not logged in</h2>
-	{/if}
-</main>
+{#if $currentUser}
+	<h2>You're logged in with email: {$currentUser.email}</h2>
+{:else}
+	<h2>You're not logged in</h2>
+{/if}
 
 <style>
 
