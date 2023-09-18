@@ -1,4 +1,5 @@
 <script lang="ts">
+    import MapChooser from "$lib/components/MapChooser.svelte";
 	import { pb, currentUser } from "$lib/pocketbase";
 
 	async function loginWithGoogle(){
@@ -20,6 +21,8 @@
 <h1>Hello World</h1>
 <button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
 <button on:click|preventDefault={logout}>Logout</button>
+
+<MapChooser />
 
 {#if $currentUser}
 	<h2>You're logged in with email: {$currentUser.email}</h2>
