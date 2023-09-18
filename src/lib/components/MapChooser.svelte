@@ -1,5 +1,5 @@
 <script lang="ts">
-import { onMount, onDestroy } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import { browser } from '$app/environment';
     import type { Map } from 'leaflet';
 
