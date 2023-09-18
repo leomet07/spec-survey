@@ -1,10 +1,13 @@
 <script lang="ts">
     import { onMount, onDestroy } from 'svelte';
     import { browser } from '$app/environment';
-    import type { Map } from 'leaflet';
+    import type { LatLng, LeafletMouseEvent, Map, Marker } from 'leaflet';
 
     let mapElement : HTMLElement;
     let map : Map;
+
+    let latlng : LatLng;
+    let marker : Marker;
 
     onMount(async () => {
         if(browser) {
@@ -14,6 +17,16 @@
             leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
+
+            map.on("click", (e : LeafletMouseEvent) => {
+                console.log("Lat long: ", e.latlng);
+                latlng = e.latlng;
+                if (marker){
+                    marker.remove();
+                }
+                marker = leaflet.marker(e.latlng).addTo(map);
+                
+            })
         }
     });
 
