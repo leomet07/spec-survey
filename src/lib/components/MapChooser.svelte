@@ -1,4 +1,8 @@
 <script lang="ts">
+    import iconUrl from "$lib/leaflet_images/marker-icon.png"
+    import iconRetinaUrl from "$lib/leaflet_images/marker-icon-2x.png"
+    import shadowUrl from "$lib/leaflet_images/marker-shadow.png"
+
     import { onMount, onDestroy } from 'svelte';
     import { browser } from '$app/environment';
     import type { LatLng, LeafletMouseEvent, Map, Marker } from 'leaflet';
@@ -12,6 +16,16 @@
     onMount(async () => {
         if(browser) {
             const leaflet = await import('leaflet');
+
+            // Hacky way to get around bundling of marker icon failing
+            // @ts-ignore
+            delete leaflet.Icon.Default.prototype._getIconUrl;
+            leaflet.Icon.Default.mergeOptions({
+                iconUrl: iconUrl,
+                iconRetinaUrl: iconRetinaUrl,
+                shadowUrl: shadowUrl
+            });
+            
             map = leaflet.map(mapElement).setView([40.718139, -74.013754], 2);
 
             leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
