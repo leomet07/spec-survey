@@ -18,8 +18,6 @@
 			    return;
 			}
             predictions = predictions_param;
-
-			console.log("Predictions: ", predictions)
 	};
 
     async function handleChange(){
@@ -35,7 +33,6 @@
         if (!place_id){
             return;
         }
-        console.log("Place id chosen: ", place_id);
 
         // get lat long
         const response = await geocoder.geocode({placeId : place_id});
@@ -45,7 +42,6 @@
         let lng = response.results[0].geometry.location.lng();
 
         let latlng : LatLngSimple = { lat, lng };
-        console.log("lat_long of chosen: ", latlng);
         $chosenPlaceStore = latlng;
     }
 
