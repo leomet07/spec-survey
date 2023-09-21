@@ -5,5 +5,5 @@ export type LatLngSimple = {
 
 export type QuestionResults = {
     latlng : LatLngSimple;
-    political_address_components? : google.maps.GeocoderAddressComponent[];
+    political_address_components : google.maps.GeocoderAddressComponent[];
 }
