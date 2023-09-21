@@ -10,8 +10,10 @@
     export let prompt : string;
 </script>
 
-<h2>{prompt}</h2>
+<section>
+    <h2>{prompt}</h2>
 
-<AutoCompleteDropdown service={service} geocoder={geocoder} chosenPlaceStore={questionStore}/>
+    <AutoCompleteDropdown service={service} geocoder={geocoder} chosenPlaceStore={questionStore}/>
 
-<MapChooser chosenPlaceStore={questionStore} />
+    <MapChooser chosenPlaceStore={questionStore} />
+</section>

@@ -1,8 +1,7 @@
 <script lang="ts">
+	import Questionare from "$lib/components/Questionare.svelte";
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { onMount } from 'svelte';
-	import { q1_results } from "$lib/store";
-	import QuestionComponent from "$lib/components/QuestionComponent.svelte";
 
 	async function loginWithGoogle(){
 		// This method initializes a one-off realtime subscription and will
@@ -30,22 +29,18 @@
 		service = new google.maps.places.AutocompleteService();
 		geocoder = new google.maps.Geocoder();
 	}
-
-
 	
 </script>
 
-
-<h1>Hello World</h1>
-<button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
-<button on:click|preventDefault={logout}>Logout</button>
-
-<QuestionComponent questionStore={q1_results} geocoder={geocoder} service={service} prompt="Where were you born?" />
+<h1>The Spectator Demographics Survey</h1>
 
 {#if $currentUser}
-	<h2>You're logged in with email: {$currentUser.email}</h2>
+	<Questionare service={service} geocoder={geocoder} />
+	<p>You're logged in with email: {$currentUser.email}</p>
+	<button on:click|preventDefault={logout} class="secondary outline">Logout</button>
 {:else}
-	<h2>You're not logged in</h2>
+	<p>You're not logged in</p>
+	<button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
 {/if}
 
 <style>
