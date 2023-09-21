@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { pb, currentUser } from "$lib/pocketbase";
-	import { q1_results, q2_results } from "$lib/store";
+	import * as store from "$lib/store";
 	import QuestionComponent from "$lib/components/QuestionComponent.svelte";
 	import { ClientResponseError } from "pocketbase";
 	import type { QuestionResults } from "$lib/types";
@@ -36,20 +36,68 @@
         const created = await pb.collection("questions").create(data);
     }
 
-	q1_results.subscribe(async (q1) => {
+	store.q1_results.subscribe(async (q1) => {
 		questionUpdater(q1, "A");
+	});
+	store.q2_results.subscribe(async (q2) => {
+		questionUpdater(q2, "B");
+	});
+	store.q3_results.subscribe(async (q3) => {
+		questionUpdater(q3, "C");
+	});
+	store.q4_results.subscribe(async (q4) => {
+		questionUpdater(q4, "D");
+	});
+	store.q5_results.subscribe(async (q5) => {
+		questionUpdater(q5, "E");
+	});
+	store.q6_results.subscribe(async (q6) => {
+		questionUpdater(q6, "F");
+	});
+	store.q7_results.subscribe(async (q7) => {
+		questionUpdater(q7, "G");
 	});
 </script>
 
 <QuestionComponent
-	questionStore={q1_results}
+	questionStore={store.q1_results}
 	{geocoder}
 	{autoCompleteService}
 	prompt="Where were you born?"
 />
 <QuestionComponent
-	questionStore={q2_results}
+	questionStore={store.q2_results}
 	{geocoder}
 	{autoCompleteService}
-	prompt="Where was your mom born?"
+	prompt="Where was your mother born?"
+/>
+<QuestionComponent
+	questionStore={store.q3_results}
+	{geocoder}
+	{autoCompleteService}
+	prompt="Where was your father born?"
+/>
+<QuestionComponent
+	questionStore={store.q4_results}
+	{geocoder}
+	{autoCompleteService}
+	prompt="Where was your grandma on your mother's side born?"
+/>
+<QuestionComponent
+	questionStore={store.q5_results}
+	{geocoder}
+	{autoCompleteService}
+	prompt="Where was your grandpa on your mother's side born?"
+/>
+<QuestionComponent
+	questionStore={store.q6_results}
+	{geocoder}
+	{autoCompleteService}
+	prompt="Where was your grandma on your father's side born?"
+/>
+<QuestionComponent
+	questionStore={store.q7_results}
+	{geocoder}
+	{autoCompleteService}
+	prompt="Where was your grandpa on your father's side born?"
 />
