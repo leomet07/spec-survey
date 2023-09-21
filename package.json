@@ -23,6 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"@picocss/pico": "^1.5.10",
+		"@types/google.maps": "^3.54.1",
 		"leaflet": "^1.9.4",
 		"pocketbase": "^0.18.0"
 	}
