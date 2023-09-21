@@ -7,9 +7,9 @@
     import { browser } from '$app/environment';
     import type { LatLng, LeafletMouseEvent, Map, Marker } from 'leaflet';
 	import type { Writable } from "svelte/store";
-	import type { LatLngSimple } from "$lib/types";
+	import type { QuestionResults } from "$lib/types";
 
-    export let chosenPlaceStore : Writable<LatLngSimple | undefined>;
+    export let chosenPlaceStore : Writable<QuestionResults | undefined>;
 
     let mapElement : HTMLElement;
     let map : Map;
@@ -38,7 +38,7 @@
             map.on("click", (e : LeafletMouseEvent) => {
                 console.log("Lat long: ", e.latlng);
 
-                $chosenPlaceStore = {lat : e.latlng.lat, lng : e.latlng.lng};  
+                $chosenPlaceStore = {latlng : {lat : e.latlng.lat, lng : e.latlng.lng}};  
             })
 
             chosenPlaceStore.subscribe((chosenPlace) => {
@@ -48,7 +48,7 @@
                 if (!chosenPlace){
                     return;
                 }
-                marker = leaflet.marker(chosenPlace).addTo(map);
+                marker = leaflet.marker(chosenPlace.latlng).addTo(map);
 
             })
         }

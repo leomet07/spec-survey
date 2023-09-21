@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { LatLngSimple } from "$lib/types";
+	import type { LatLngSimple, QuestionResults } from "$lib/types";
 	import type { Writable } from "svelte/store";
 
     export let service : google.maps.places.AutocompleteService;
     export let geocoder : google.maps.Geocoder;
-    export let chosenPlaceStore : Writable<LatLngSimple | undefined>;
+
+    export let chosenPlaceStore : Writable<QuestionResults | undefined>;
 
     let predictions : google.maps.places.QueryAutocompletePrediction[] = [];
     let query : string;
@@ -42,11 +43,11 @@
         let lng = results.geometry.location.lng();
         
         let latlng : LatLngSimple = { lat, lng };
-        $chosenPlaceStore = latlng;
-
+        
         let address_components = results.address_components;
         let political_address_components = address_components.filter((v) => v.types.includes("political"));
         console.log("Political Address components of chosen: ", political_address_components);
+        $chosenPlaceStore = { latlng,political_address_components }; 
     }
 
 </script>

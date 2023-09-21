@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import type { LatLngSimple } from "$lib/types";
+import type { QuestionResults } from "$lib/types";
 
-export const q1_results = writable<LatLngSimple | undefined>();
-
+export const q1_results = writable<QuestionResults | undefined>();
