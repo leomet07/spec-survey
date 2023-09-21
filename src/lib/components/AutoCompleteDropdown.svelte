@@ -2,9 +2,8 @@
 	import type { LatLngSimple, QuestionResults } from "$lib/types";
 	import type { Writable } from "svelte/store";
 
-    export let service : google.maps.places.AutocompleteService;
+    export let autoCompleteService : google.maps.places.AutocompleteService;
     export let geocoder : google.maps.Geocoder;
-
     export let chosenPlaceStore : Writable<QuestionResults | undefined>;
 
     let predictions : google.maps.places.QueryAutocompletePrediction[] = [];
@@ -28,7 +27,7 @@
             return;
         }
 
-        service.getQueryPredictions({ input : query }, displaySuggestions);
+        autoCompleteService.getQueryPredictions({ input : query }, displaySuggestions);
     }
 
     async function choosePlace(place_id : string | undefined){

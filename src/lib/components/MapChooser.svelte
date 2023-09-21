@@ -9,7 +9,9 @@
 	import type { Writable } from "svelte/store";
 	import type { QuestionResults } from "$lib/types";
 
+    export let geocoder : google.maps.Geocoder;
     export let chosenPlaceStore : Writable<QuestionResults | undefined>;
+
 
     let mapElement : HTMLElement;
     let map : Map;

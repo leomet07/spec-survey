@@ -22,11 +22,11 @@
 	onMount(() => {
 		initService();
 	});
-	let service : google.maps.places.AutocompleteService;
+	let autoCompleteService : google.maps.places.AutocompleteService;
 	let geocoder : google.maps.Geocoder;
 
 	function initService() {
-		service = new google.maps.places.AutocompleteService();
+		autoCompleteService = new google.maps.places.AutocompleteService();
 		geocoder = new google.maps.Geocoder();
 	}
 	
@@ -35,7 +35,7 @@
 <h1>The Spectator Demographics Survey</h1>
 
 {#if $currentUser}
-	<Questionare service={service} geocoder={geocoder} />
+	<Questionare autoCompleteService={autoCompleteService} geocoder={geocoder} />
 	<p>You're logged in with email: {$currentUser.email}</p>
 	<button on:click|preventDefault={logout} class="secondary outline">Logout</button>
 {:else}
