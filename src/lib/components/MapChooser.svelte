@@ -37,10 +37,18 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            map.on("click", (e : LeafletMouseEvent) => {
-                console.log("Lat long: ", e.latlng);
+            map.on("click", async (e : LeafletMouseEvent) => {
+                let latlng = {lat : e.latlng.lat, lng : e.latlng.lng};
+                console.log("Lat long of click: ", latlng);
 
-                $chosenPlaceStore = {latlng : {lat : e.latlng.lat, lng : e.latlng.lng}};  
+                // convert lat long to a place, then grab the city/state/country/that-sort-of-political-data
+                const response = await geocoder.geocode({location : latlng});
+
+                const results = response.results[0];
+                let address_components = results.address_components;
+                let political_address_components = address_components.filter((v) => v.types.includes("political"));
+
+                $chosenPlaceStore = { latlng , political_address_components };  
             })
 
             chosenPlaceStore.subscribe((chosenPlace) => {
