@@ -1,8 +1,8 @@
 <script lang="ts">
+	import AutoCompleteDropdown from "$lib/components/AutoCompleteDropdown.svelte";
     import MapChooser from "$lib/components/MapChooser.svelte";
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { onMount } from 'svelte';
-	import { PUBLIC_GMAPS_JSAPI_KEY } from '$env/static/public';
 
 	async function loginWithGoogle(){
 		// This method initializes a one-off realtime subscription and will
@@ -23,34 +23,22 @@
 	onMount(() => {
 		initService();
 	});
+	let service : google.maps.places.AutocompleteService;
 
 	function initService(): void {
-		const displaySuggestions = function (
-			predictions: google.maps.places.QueryAutocompletePrediction[] | null,
-			status: google.maps.places.PlacesServiceStatus
-		) {
-			if (status != google.maps.places.PlacesServiceStatus.OK || !predictions) {
-			alert(status);
-			return;
-			}
-
-			console.log("Predictions: ", predictions)
-		};
-
-		const service = new google.maps.places.AutocompleteService();
-
-		service.getQueryPredictions({ input: "pizza near Syd" }, displaySuggestions);
+		service = new google.maps.places.AutocompleteService();
 	}
+
 	
 </script>
 
-<svelte:head>
-	<script src={`https://maps.googleapis.com/maps/api/js?key=${PUBLIC_GMAPS_JSAPI_KEY}&libraries=places`} async defer/>
-</svelte:head>
 
 <h1>Hello World</h1>
 <button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
 <button on:click|preventDefault={logout}>Logout</button>
+
+
+<AutoCompleteDropdown service={service}/>
 
 <MapChooser />
 
