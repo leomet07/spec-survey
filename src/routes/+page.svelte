@@ -24,9 +24,11 @@
 		initService();
 	});
 	let service : google.maps.places.AutocompleteService;
+	let geocoder : google.maps.Geocoder;
 
-	function initService(): void {
+	function initService() {
 		service = new google.maps.places.AutocompleteService();
+		geocoder = new google.maps.Geocoder();
 	}
 
 	
@@ -38,7 +40,7 @@
 <button on:click|preventDefault={logout}>Logout</button>
 
 
-<AutoCompleteDropdown service={service}/>
+<AutoCompleteDropdown service={service} geocoder={geocoder}/>
 
 <MapChooser />
 
