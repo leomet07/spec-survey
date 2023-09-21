@@ -3,7 +3,6 @@
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { onMount } from 'svelte';
 
-	let errord : any;
 	let url : string;
 	async function loginWithGoogle(){
 		// This method initializes a one-off realtime subscription and will
@@ -13,16 +12,11 @@
 		// window will be automatically closed and the OAuth2 data sent back
 		// to the user through the previously established realtime connection.
 		try {
-			errord = "before"
 			const authData = await pb.collection('users').authWithOAuth2({ provider: 'google', urlCallback : (urlp : string) => {
 				url = urlp;
-				// window.location.href = urlp;
 				window.open(urlp); // just try and open the window right away, works on non IOS browsers
 			}});
-			errord = "after"
 		} catch (error){
-			errord = "before"
-			errord = String(error);
 		}
 	}
 
@@ -56,10 +50,12 @@
 	<button on:click|preventDefault={logout} class="secondary outline">Logout</button>
 {:else}
 	<p>You're not logged in</p>
-	<!-- <button on:click|preventDefault={loginWithGoogle}>Login with Google</button> -->
+	<!-- On click to expand the accordian, user will either immedietely be redirected or will at least get the redirect url loaded for the button within the accordian -->
+	<!-- Why? Well the JS method worked on everything other than safari/ios browsers becaue they block JS from opening new tabs -->
+	<!-- So, we make the user open what JS was going to open if the user is on safari/ios -->
 	<details>
 		<summary role="button" on:click={loginWithGoogle} on:keypress={loginWithGoogle} tabindex="1">Sign in</summary>
-		<a role="button" target="_blank" href={url}>New login with google</a>
+		<a role="button" target="_blank" href={url}>Login with Google</a>
 	</details>
 {/if}
 
