@@ -24,7 +24,7 @@
 
         const data = {
             lat : questionStore.latlng.lat,
-            lng : questionStore.latlng.lat,
+            lng : questionStore.latlng.lng,
             political_address_components : questionStore.political_address_components,
             parent_user : $currentUser.id,
             question_id : question_id
