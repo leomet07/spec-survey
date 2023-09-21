@@ -9,6 +9,7 @@
 
     let predictions : google.maps.places.QueryAutocompletePrediction[] = [];
     let query : string;
+    let queryInput : HTMLInputElement;
 
     const displaySuggestions = function (
 			predictions_param: google.maps.places.QueryAutocompletePrediction[] | null,
@@ -48,13 +49,16 @@
         let political_address_components = address_components.filter((v) => v.types.includes("political"));
         console.log("Political Address components of chosen: ", political_address_components);
         $chosenPlaceStore = { latlng,political_address_components }; 
+        queryInput.value = "";
+        predictions = [];
     }
 
 </script>
 
 
 <form on:submit|preventDefault={() => {handleChange()}}>
-    <input type="text" name="query" id="location_entry" bind:value={query} on:input={handleChange}>
+    <label for="query">Enter the location</label>
+    <input type="text" name="query" id="location_entry" bind:value={query} bind:this={queryInput} on:input={handleChange} placeholder="Chigago, Brooklyn, etc...">
     {#if predictions.length > 0}
         <ol>
             {#each predictions as prediction, index}
@@ -62,5 +66,4 @@
             {/each}
         </ol>
     {/if}
-    <input type="submit" value="Get suggestions"/>
 </form>
