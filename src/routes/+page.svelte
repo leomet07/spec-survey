@@ -1,9 +1,8 @@
 <script lang="ts">
-	import AutoCompleteDropdown from "$lib/components/AutoCompleteDropdown.svelte";
-    import MapChooser from "$lib/components/MapChooser.svelte";
 	import { pb, currentUser } from "$lib/pocketbase";
-	import { q1_results } from "$lib/store";
 	import { onMount } from 'svelte';
+	import { q1_results } from "$lib/store";
+	import QuestionComponent from "$lib/components/QuestionComponent.svelte";
 
 	async function loginWithGoogle(){
 		// This method initializes a one-off realtime subscription and will
@@ -32,6 +31,7 @@
 		geocoder = new google.maps.Geocoder();
 	}
 
+
 	
 </script>
 
@@ -40,10 +40,7 @@
 <button on:click|preventDefault={loginWithGoogle}>Login with Google</button>
 <button on:click|preventDefault={logout}>Logout</button>
 
-
-<AutoCompleteDropdown service={service} geocoder={geocoder} chosenPlaceStore={q1_results}/>
-
-<MapChooser chosenPlaceStore={q1_results} />
+<QuestionComponent questionStore={q1_results} geocoder={geocoder} service={service} prompt="Where were you born?" />
 
 {#if $currentUser}
 	<h2>You're logged in with email: {$currentUser.email}</h2>
