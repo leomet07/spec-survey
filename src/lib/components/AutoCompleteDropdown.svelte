@@ -1,6 +1,10 @@
 <script lang="ts">
+	import type { LatLngSimple } from "$lib/types";
+	import type { Writable } from "svelte/store";
+
     export let service : google.maps.places.AutocompleteService;
     export let geocoder : google.maps.Geocoder;
+    export let chosenPlaceStore : Writable<LatLngSimple | undefined>;
 
     let predictions : google.maps.places.QueryAutocompletePrediction[] = [];
     let query : string;
@@ -38,8 +42,11 @@
         console.log("Response of chosen: ", response);
         
         let lat = response.results[0].geometry.location.lat();
-        let long = response.results[0].geometry.location.lng();
-        console.log("lat_long of chosen: ", lat, long);
+        let lng = response.results[0].geometry.location.lng();
+
+        let latlng : LatLngSimple = { lat, lng };
+        console.log("lat_long of chosen: ", latlng);
+        $chosenPlaceStore = latlng;
     }
 
 </script>

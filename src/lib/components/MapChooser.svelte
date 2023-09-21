@@ -6,11 +6,14 @@
     import { onMount, onDestroy } from 'svelte';
     import { browser } from '$app/environment';
     import type { LatLng, LeafletMouseEvent, Map, Marker } from 'leaflet';
+	import type { Writable } from "svelte/store";
+	import type { LatLngSimple } from "$lib/types";
+
+    export let chosenPlaceStore : Writable<LatLngSimple | undefined>;
 
     let mapElement : HTMLElement;
     let map : Map;
 
-    let latlng : LatLng;
     let marker : Marker;
 
     onMount(async () => {
@@ -34,15 +37,24 @@
 
             map.on("click", (e : LeafletMouseEvent) => {
                 console.log("Lat long: ", e.latlng);
-                latlng = e.latlng;
+
+                $chosenPlaceStore = {lat : e.latlng.lat, lng : e.latlng.lng};  
+            })
+
+            chosenPlaceStore.subscribe((chosenPlace) => {
                 if (marker){
                     marker.remove();
                 }
-                marker = leaflet.marker(e.latlng).addTo(map);
-                
+                if (!chosenPlace){
+                    return;
+                }
+                marker = leaflet.marker(chosenPlace).addTo(map);
+
             })
         }
     });
+
+    
 
     onDestroy(async () => {
         if(map) {

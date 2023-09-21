@@ -2,6 +2,7 @@
 	import AutoCompleteDropdown from "$lib/components/AutoCompleteDropdown.svelte";
     import MapChooser from "$lib/components/MapChooser.svelte";
 	import { pb, currentUser } from "$lib/pocketbase";
+	import { q1_results } from "$lib/store";
 	import { onMount } from 'svelte';
 
 	async function loginWithGoogle(){
@@ -40,9 +41,9 @@
 <button on:click|preventDefault={logout}>Logout</button>
 
 
-<AutoCompleteDropdown service={service} geocoder={geocoder}/>
+<AutoCompleteDropdown service={service} geocoder={geocoder} chosenPlaceStore={q1_results}/>
 
-<MapChooser />
+<MapChooser chosenPlaceStore={q1_results} />
 
 {#if $currentUser}
 	<h2>You're logged in with email: {$currentUser.email}</h2>
