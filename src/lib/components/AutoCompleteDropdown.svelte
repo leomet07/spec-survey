@@ -36,13 +36,17 @@
 
         // get lat long
         const response = await geocoder.geocode({placeId : place_id});
-        console.log("Response of chosen: ", response);
+        const results = response.results[0];
         
-        let lat = response.results[0].geometry.location.lat();
-        let lng = response.results[0].geometry.location.lng();
-
+        let lat = results.geometry.location.lat();
+        let lng = results.geometry.location.lng();
+        
         let latlng : LatLngSimple = { lat, lng };
         $chosenPlaceStore = latlng;
+
+        let address_components = results.address_components;
+        let political_address_components = address_components.filter((v) => v.types.includes("political"));
+        console.log("Political Address components of chosen: ", political_address_components);
     }
 
 </script>
