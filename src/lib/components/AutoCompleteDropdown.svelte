@@ -73,7 +73,7 @@
 >
 	<label for="query">Enter the location</label>
 	<input
-		type="text"
+		type="search"
 		name="query"
 		id="location_entry"
 		bind:value={query}
