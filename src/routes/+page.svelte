@@ -45,7 +45,7 @@
 	}
 </script>
 
-<header class="container">
+<header>
 	<hgroup>
 		<h1>The Spectator Demographics Survey</h1>
 		<h2>Answer as many or as few questions as you would like!</h2>
@@ -77,4 +77,7 @@
 {/if}
 
 <style>
+	header {
+		padding-top: 1.5rem;
+	}
 </style>
