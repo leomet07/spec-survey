@@ -54,6 +54,7 @@
 	<!-- Why? Well the JS method worked on everything other than safari/ios browsers becaue they block JS from opening new tabs -->
 	<!-- So, we make the user open what JS was going to open if the user is on safari/ios -->
 	<details>
+		<!-- svelte-ignore a11y-no-redundant-roles -->
 		<summary role="button" on:click={loginWithGoogle} on:keypress={loginWithGoogle} tabindex="1">Sign in</summary>
 		<a role="button" target="_blank" href={url}>Login with Google</a>
 	</details>
