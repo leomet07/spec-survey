@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "@picocss/pico";
 	import { PUBLIC_GMAPS_JSAPI_KEY } from "$env/static/public";
+	import "./globals.css";
 </script>
 
 <svelte:head>

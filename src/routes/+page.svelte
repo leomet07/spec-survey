@@ -45,7 +45,12 @@
 	}
 </script>
 
-<h1>The Spectator Demographics Survey</h1>
+<header class="container">
+	<hgroup>
+		<h1>The Spectator Demographics Survey</h1>
+		<h2>Answer as many or as few questions as you would like!</h2>
+	</hgroup>
+</header>
 
 {#if $currentUser}
 	<Questionare {autoCompleteService} {geocoder} />
