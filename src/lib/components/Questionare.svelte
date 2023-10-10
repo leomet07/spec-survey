@@ -26,7 +26,6 @@
 			matched_to_on_load[0]?.lat == questionStore.latlng.lat &&
 			matched_to_on_load[0]?.lng == questionStore.latlng.lng
 		) {
-			console.log("Returning early, this is from the initial on load");
 			// nothing has changed from the initial markers from db, do not do any db stuff
 			return;
 		}
@@ -93,7 +92,6 @@
 		found_answers = await pb
 			.collection("questions")
 			.getFullList<DBQuestion>({ requestKey: "load_questions" });
-		console.log("Found answers: ", found_answers);
 
 		for (const found_answer of found_answers) {
 			let found_entry_in_store = Object.entries(question_mapping).filter(
