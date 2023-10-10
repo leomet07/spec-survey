@@ -60,6 +60,7 @@
 	<!-- So, we make the user open what JS was going to open if the user is on safari/ios -->
 	<details>
 		<!-- svelte-ignore a11y-no-redundant-roles -->
+		<!-- svelte-ignore a11y-positive-tabindex -->
 		<summary
 			role="button"
 			on:click={loginWithGoogle}

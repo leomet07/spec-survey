@@ -2,8 +2,8 @@
 	import { pb, currentUser } from "$lib/pocketbase";
 	import * as store from "$lib/store";
 	import QuestionComponent from "$lib/components/QuestionComponent.svelte";
-	import { ClientResponseError, type RecordModel } from "pocketbase";
-	import type { QuestionResults } from "$lib/types";
+	import { ClientResponseError } from "pocketbase";
+	import type { DBQuestion, QuestionResults } from "$lib/types";
 
 	export let autoCompleteService: google.maps.places.AutocompleteService;
 	export let geocoder: google.maps.Geocoder;
@@ -21,6 +21,7 @@
 		);
 
 		if (
+			matched_to_on_load &&
 			matched_to_on_load.length > 0 &&
 			matched_to_on_load[0]?.lat == questionStore.latlng.lat &&
 			matched_to_on_load[0]?.lng == questionStore.latlng.lng
@@ -30,11 +31,11 @@
 			return;
 		}
 
-		let found;
+		let found: DBQuestion | undefined;
 		try {
 			found = await pb
 				.collection("questions")
-				.getFirstListItem(`question_id="${question_id}"`);
+				.getFirstListItem<DBQuestion>(`question_id="${question_id}"`);
 		} catch (e: any) {
 			if (e.status != 404 && !(e instanceof ClientResponseError)) {
 				// if 404, just return false
@@ -86,12 +87,12 @@
 		}
 	});
 
-	let found_answers: any | undefined;
+	let found_answers: DBQuestion[] | undefined;
 
 	async function load_questions() {
 		found_answers = await pb
 			.collection("questions")
-			.getFullList({ requestKey: "load_questions" });
+			.getFullList<DBQuestion>({ requestKey: "load_questions" });
 		console.log("Found answers: ", found_answers);
 
 		for (const found_answer of found_answers) {
