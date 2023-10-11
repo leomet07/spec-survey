@@ -7,8 +7,8 @@
 <svelte:head>
 	<script
 		src={`https://maps.googleapis.com/maps/api/js?key=${PUBLIC_GMAPS_JSAPI_KEY}&libraries=places`}
-		async
-	></script>
+	>
+	</script>
 </svelte:head>
 
 <main class="container">
