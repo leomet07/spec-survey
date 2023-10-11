@@ -82,7 +82,7 @@
 
 	currentUser.subscribe(async (curr_user) => {
 		if (curr_user?.id) {
-			load_questions();
+			setTimeout(load_questions, 1);
 		}
 	});
 
