@@ -2,6 +2,7 @@
 	import "@picocss/pico";
 	import { PUBLIC_GMAPS_JSAPI_KEY } from "$env/static/public";
 	import "./globals.css";
+    import NavBar from "$lib/components/NavBar.svelte";
 </script>
 
 <svelte:head>
@@ -10,6 +11,8 @@
 	>
 	</script>
 </svelte:head>
+
+<NavBar />
 
 <main class="container">
 	<slot />

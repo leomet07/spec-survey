@@ -75,9 +75,3 @@
 		<a role="button" target="_blank" href={url}>Login with Google</a>
 	</details>
 {/if}
-
-<style>
-	header {
-		padding-top: 1.5rem;
-	}
-</style>
