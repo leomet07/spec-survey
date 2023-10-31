@@ -115,47 +115,76 @@
 
 		listen_for_updates();
 	}
+
+	async function submitSurvey() {
+		const current_user_id = $currentUser?.id;
+		if (!current_user_id) {
+			console.log("Not logged in, current user_id not found!");
+		}
+		await pb.collection("users").update(current_user_id, {
+			hasSubmittedSurvey: true,
+		});
+	}
+
+	async function unSubmitSurvey() {
+		const current_user_id = $currentUser?.id;
+		if (!current_user_id) {
+			console.log("Not logged in, current user_id not found!");
+		}
+		await pb.collection("users").update(current_user_id, {
+			hasSubmittedSurvey: false,
+		});
+	}
 </script>
 
-<QuestionComponent
-	questionStore={store.q1_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where were you born?"
-/>
-<QuestionComponent
-	questionStore={store.q2_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where was your mother born?"
-/>
-<QuestionComponent
-	questionStore={store.q3_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where was your father born?"
-/>
-<QuestionComponent
-	questionStore={store.q4_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where was your grandma on your mother's side born?"
-/>
-<QuestionComponent
-	questionStore={store.q5_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where was your grandpa on your mother's side born?"
-/>
-<QuestionComponent
-	questionStore={store.q6_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where was your grandma on your father's side born?"
-/>
-<QuestionComponent
-	questionStore={store.q7_results}
-	{geocoder}
-	{autoCompleteService}
-	prompt="Where was your grandpa on your father's side born?"
-/>
+{#if !$currentUser?.hasSubmittedSurvey}
+	<QuestionComponent
+		questionStore={store.q1_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where were you born?"
+	/>
+	<QuestionComponent
+		questionStore={store.q2_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where was your mother born?"
+	/>
+	<QuestionComponent
+		questionStore={store.q3_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where was your father born?"
+	/>
+	<QuestionComponent
+		questionStore={store.q4_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where was your grandma on your mother's side born?"
+	/>
+	<QuestionComponent
+		questionStore={store.q5_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where was your grandpa on your mother's side born?"
+	/>
+	<QuestionComponent
+		questionStore={store.q6_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where was your grandma on your father's side born?"
+	/>
+	<QuestionComponent
+		questionStore={store.q7_results}
+		{geocoder}
+		{autoCompleteService}
+		prompt="Where was your grandpa on your father's side born?"
+	/>
+
+	<button on:click|preventDefault={submitSurvey}>Submit Survey</button>
+{:else}
+	<h2>Thanks for submitting the survey!</h2>
+	<button on:click|preventDefault={unSubmitSurvey} class="secondary">
+		Unsubmit Survey
+	</button>
+{/if}
