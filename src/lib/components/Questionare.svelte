@@ -139,7 +139,7 @@
 </script>
 
 {#if !$currentUser?.hasSubmittedSurvey}
-	<EthnicityChooser />
+	<EthnicityChooser chosenEthnicities={store.ethnicity_results} />
 	<QuestionComponent
 		questionStore={store.q1_results}
 		{geocoder}

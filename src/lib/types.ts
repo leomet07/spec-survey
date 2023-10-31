@@ -21,3 +21,5 @@ export interface DBQuestion extends RecordModel {
 export interface Ethnicity extends RecordModel {
 	name: string;
 }
+
+export type EthnicityQuestionResults = Ethnicity[];
