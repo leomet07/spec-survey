@@ -3,6 +3,7 @@
 	import { pb } from "$lib/pocketbase";
 	import type { Writable } from "svelte/store";
 
+	export let prompt: string;
 	let predictions: Ethnicity[] = [];
 	export let chosenEthnicities: Writable<
 		EthnicityQuestionResults | undefined
@@ -41,6 +42,7 @@
 			return;
 		}
 		$chosenEthnicities = [...($chosenEthnicities || []), ethnicity];
+		query = "";
 	}
 	async function removeEthnicity(ethnicity: Ethnicity) {
 		$chosenEthnicities = $chosenEthnicities?.filter(
@@ -48,6 +50,8 @@
 		);
 	}
 </script>
+
+<h2>{prompt}</h2>
 
 <form
 	on:submit|preventDefault={() => {
@@ -92,6 +96,7 @@
 	.chosen_ethnicities {
 		display: flex;
 		gap: 1rem;
+		margin-bottom: 0;
 	}
 	.chosen_ethnicity {
 		display: inline;

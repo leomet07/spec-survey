@@ -139,7 +139,10 @@
 </script>
 
 {#if !$currentUser?.hasSubmittedSurvey}
-	<EthnicityChooser chosenEthnicities={store.ethnicity_results} />
+	<EthnicityChooser
+		prompt={"What ethnicities do you identify with?"}
+		chosenEthnicities={store.ethnicity_results}
+	/>
 	<QuestionComponent
 		questionStore={store.q1_results}
 		{geocoder}
