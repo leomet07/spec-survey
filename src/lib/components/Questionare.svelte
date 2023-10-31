@@ -181,10 +181,10 @@
 		prompt="Where was your grandpa on your father's side born?"
 	/>
 
-	<button on:click|preventDefault={submitSurvey}>Submit Survey</button>
+	<button on:click={submitSurvey}>Submit Survey</button>
 {:else}
 	<h2>Thanks for submitting the survey!</h2>
-	<button on:click|preventDefault={unSubmitSurvey} class="secondary">
+	<button on:click={unSubmitSurvey} class="secondary">
 		Unsubmit Survey
 	</button>
 {/if}
