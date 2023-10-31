@@ -17,3 +17,7 @@ export interface DBQuestion extends RecordModel {
 	question_id: string;
 	political_address_components: google.maps.GeocoderAddressComponent[];
 }
+
+export interface Ethnicity extends RecordModel {
+	name: string;
+}

@@ -4,6 +4,7 @@
 	import QuestionComponent from "$lib/components/QuestionComponent.svelte";
 	import { ClientResponseError } from "pocketbase";
 	import type { DBQuestion, QuestionResults } from "$lib/types";
+	import EthnicityChooser from "./EthnicityChooser.svelte";
 
 	export let autoCompleteService: google.maps.places.AutocompleteService;
 	export let geocoder: google.maps.Geocoder;
@@ -138,6 +139,7 @@
 </script>
 
 {#if !$currentUser?.hasSubmittedSurvey}
+	<EthnicityChooser />
 	<QuestionComponent
 		questionStore={store.q1_results}
 		{geocoder}
