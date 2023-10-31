@@ -5,8 +5,9 @@
 	let predictions: Ethnicity[] = [];
 	let query: string;
 	let queryInput: HTMLInputElement;
+	let timer: number;
 
-	async function handleChange() {
+	async function handleSearch() {
 		if (!query) {
 			predictions = [];
 			return;
@@ -17,14 +18,19 @@
 				filter: `name~'${query}'`,
 			})
 		).items;
-
-		console.log("predictions: ", predictions);
 	}
+
+	const debounce = () => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			handleSearch();
+		}, 250);
+	};
 </script>
 
 <form
 	on:submit|preventDefault={() => {
-		handleChange();
+		debounce();
 	}}
 >
 	<label for="ethnicity_query">Choose up to 5 ethnicities...</label>
@@ -34,7 +40,7 @@
 		id="ethnicity_entry"
 		bind:value={query}
 		bind:this={queryInput}
-		on:input={handleChange}
+		on:input={debounce}
 		placeholder="Asian, Swedish, etc..."
 	/>
 	{#if predictions.length > 0}
