@@ -29,22 +29,26 @@
 	function formatNumber(n: number): number {
 		return Math.round(n * 10000) / 10000;
 	}
+
+	function clearComponent() {
+		questionStore.set(undefined);
+	}
 </script>
 
 <section>
 	<h2>{prompt}</h2>
 
 	{#if $questionStore?.political_address_components && $questionStore?.political_address_components.length > 0}
-		<button class="contrast outline chosen_place">
+		<button class="contrast outline chosen_place" on:click={clearComponent}>
 			{getAddressFromPoliticalAddressComponents(
 				$questionStore.political_address_components
 			)}
 		</button>
 	{:else if $questionStore?.latlng}
-		<p>
+		<button class="contrast outline chosen_place" on:click={clearComponent}>
 			Selected location at ({formatNumber($questionStore.latlng.lat)},
 			{formatNumber($questionStore.latlng.lng)})
-		</p>
+		</button>
 	{/if}
 
 	<AutoCompleteDropdown

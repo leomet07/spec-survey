@@ -13,7 +13,7 @@
 		questionStore: QuestionResults | undefined,
 		question_id: string
 	) {
-		if (!$currentUser || !questionStore) {
+		if (!$currentUser) {
 			return;
 		}
 
@@ -22,10 +22,11 @@
 		);
 
 		if (
+			questionStore &&
 			matched_to_on_load &&
 			matched_to_on_load.length > 0 &&
-			matched_to_on_load[0]?.lat == questionStore.latlng.lat &&
-			matched_to_on_load[0]?.lng == questionStore.latlng.lng
+			matched_to_on_load[0]?.lat == questionStore?.latlng.lat &&
+			matched_to_on_load[0]?.lng == questionStore?.latlng.lng
 		) {
 			// nothing has changed from the initial markers from db, do not do any db stuff
 			return;
@@ -41,6 +42,17 @@
 				// if 404, just return false
 				throw e;
 			}
+		}
+
+		if (!questionStore && found) {
+			const isDeleted = await pb.collection("questions").delete(found.id);
+			if (!isDeleted) {
+				throw new Error("Could not delete successfully.");
+			}
+		}
+
+		if (!questionStore) {
+			return;
 		}
 
 		const data = {
