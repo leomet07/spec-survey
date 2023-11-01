@@ -9,6 +9,7 @@
 	let predictions: google.maps.places.QueryAutocompletePrediction[] = [];
 	let query: string;
 	let queryInput: HTMLInputElement;
+	let timer: number;
 
 	const displaySuggestions = function (
 		predictions_param:
@@ -26,7 +27,14 @@
 		predictions = predictions_param;
 	};
 
-	async function handleChange() {
+	const debounce = () => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			handleSearch();
+		}, 250);
+	};
+
+	async function handleSearch() {
 		if (!query) {
 			predictions = [];
 			return;
@@ -68,7 +76,7 @@
 
 <form
 	on:submit|preventDefault={() => {
-		handleChange();
+		debounce();
 	}}
 >
 	<label for="query">Enter the location</label>
@@ -78,7 +86,7 @@
 		id="location_entry"
 		bind:value={query}
 		bind:this={queryInput}
-		on:input={handleChange}
+		on:input={debounce}
 		placeholder="Chigago, Brooklyn, etc..."
 	/>
 	{#if predictions.length > 0}
