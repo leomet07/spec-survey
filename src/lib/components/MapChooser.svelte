@@ -60,12 +60,18 @@
 
 			chosenPlaceStore.subscribe((chosenPlace) => {
 				if (marker) {
-					marker.remove();
+					map.removeLayer(marker);
 				}
 				if (!chosenPlace) {
 					return;
 				}
-				marker = leaflet.marker(chosenPlace.latlng).addTo(map);
+				try {
+					marker = leaflet.marker(chosenPlace.latlng).addTo(map);
+					marker.addTo(map);
+				} catch (error: any) {
+					// Catch this.getPane is undefined error here so does not crash store change!
+					// new marker will still show up!!
+				}
 			});
 		}
 	});

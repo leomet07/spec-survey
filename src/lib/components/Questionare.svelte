@@ -82,7 +82,7 @@
 	}
 
 	currentUser.subscribe(async (curr_user) => {
-		if (curr_user?.id) {
+		if (curr_user?.id && !curr_user.hasSubmittedSurvey) {
 			setTimeout(load_questions, 1);
 		}
 	});
