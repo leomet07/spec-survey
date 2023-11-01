@@ -23,7 +23,7 @@
 				country = comp.long_name;
 			}
 		}
-		return state + ", " + country;
+		return (state && state + ", ") + country;
 	}
 
 	function formatNumber(n: number): number {
@@ -35,11 +35,11 @@
 	<h2>{prompt}</h2>
 
 	{#if $questionStore?.political_address_components && $questionStore?.political_address_components.length > 0}
-		<p>
+		<button class="contrast outline chosen_place">
 			{getAddressFromPoliticalAddressComponents(
 				$questionStore.political_address_components
 			)}
-		</p>
+		</button>
 	{:else if $questionStore?.latlng}
 		<p>
 			Selected location at ({formatNumber($questionStore.latlng.lat)},
@@ -55,3 +55,11 @@
 
 	<MapChooser chosenPlaceStore={questionStore} {geocoder} />
 </section>
+
+<style scoped>
+	.chosen_place {
+		display: inline;
+		padding-block: 0px;
+		margin-bottom: 0.5rem;
+	}
+</style>
