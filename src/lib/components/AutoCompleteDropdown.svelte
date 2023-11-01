@@ -70,6 +70,7 @@
 		);
 		$chosenPlaceStore = { latlng, political_address_components };
 		queryInput.value = "";
+		query = ""; // clear query too for when keyboard submit is used
 		predictions = [];
 	}
 </script>
