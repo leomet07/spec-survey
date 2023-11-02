@@ -32,11 +32,11 @@
 			return;
 		}
 
-		let found: DBQuestion | undefined;
+		let found_questions: DBQuestion[] | undefined;
 		try {
-			found = await pb
+			found_questions = await pb
 				.collection("questions")
-				.getFirstListItem<DBQuestion>(`question_id="${question_id}"`);
+				.getFullList({ filter: `question_id="${question_id}"` });
 		} catch (e: any) {
 			if (e.status != 404 && !(e instanceof ClientResponseError)) {
 				// if 404, just return false
@@ -44,10 +44,20 @@
 			}
 		}
 
-		if (!questionStore && found) {
-			const isDeleted = await pb.collection("questions").delete(found.id);
-			if (!isDeleted) {
-				throw new Error("Could not delete successfully.");
+		if (found_questions && found_questions.length > 0) {
+			for (const question of found_questions) {
+				if (
+					question.lat == questionStore?.latlng.lat &&
+					question.lng == questionStore?.latlng.lng
+				) {
+					continue;
+				}
+				const isDeleted = await pb
+					.collection("questions")
+					.delete(question.id);
+				if (!isDeleted) {
+					throw new Error("Could not delete successfully.");
+				}
 			}
 		}
 
@@ -64,13 +74,6 @@
 			question_id: question_id,
 		};
 
-		if (found) {
-			if (found.lat == data.lat && found.lng == data.lng) {
-				// nothing has changed, do not do any db stuff
-				return;
-			}
-			const deleted = await pb.collection("questions").delete(found.id);
-		}
 		const created = await pb.collection("questions").create(data);
 	}
 
