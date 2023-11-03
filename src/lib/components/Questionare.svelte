@@ -5,6 +5,8 @@
 	import { ClientResponseError } from "pocketbase";
 	import type {
 		DBQuestion,
+		Ethnicity,
+		EthnicityQuestionResults,
 		QuestionResults,
 		UserEthnicityDBEntry,
 	} from "$lib/types";
@@ -21,7 +23,7 @@
 			return;
 		}
 
-		const matched_to_on_load = found_answers?.filter(
+		const matched_to_on_load = found_map_answers?.filter(
 			(v: any) => v.question_id == question_id
 		);
 
@@ -104,6 +106,18 @@
 				return;
 			}
 
+			if (found_ethnicity_answers) {
+				let is_same =
+					new_ethnicities?.length == found_ethnicity_answers.length &&
+					new_ethnicities?.every(function (element, index) {
+						// @ts-ignore
+						return element === found_ethnicity_answers[index];
+					});
+				if (is_same) {
+					return;
+				}
+			}
+
 			let found_user_ethnicities = await pb
 				.collection("user_ethnicities")
 				.getFullList<UserEthnicityDBEntry>(); // automatically filtered because rule in db
@@ -142,14 +156,16 @@
 		}
 	});
 
-	let found_answers: DBQuestion[] | undefined;
+	let found_map_answers: DBQuestion[] | undefined;
+	let found_ethnicity_answers: EthnicityQuestionResults | undefined;
 
 	async function load_questions() {
-		found_answers = await pb
+		// Load map questions
+		found_map_answers = await pb
 			.collection("questions")
 			.getFullList<DBQuestion>({ requestKey: "load_questions" });
 
-		for (const found_answer of found_answers) {
+		for (const found_answer of found_map_answers) {
 			let found_entry_in_store = Object.entries(question_mapping).filter(
 				(a) => a[1] == found_answer.question_id
 			);
@@ -168,6 +184,18 @@
 					found_answer.political_address_components,
 			});
 		}
+
+		// Load ethnicity questions
+		let db_found_ethnicity_answers = await pb
+			.collection("user_ethnicities")
+			.getFullList<UserEthnicityDBEntry>({ expand: "ethnicity" }); // automatically filtered because rule in db
+
+		console.log("On load: ", db_found_ethnicity_answers);
+		found_ethnicity_answers = db_found_ethnicity_answers.map(function (v) {
+			return v?.expand?.ethnicity as Ethnicity;
+		});
+		console.log("On parse: ", found_ethnicity_answers);
+		store.ethnicity_results.set(found_ethnicity_answers);
 
 		listen_for_updates();
 	}
