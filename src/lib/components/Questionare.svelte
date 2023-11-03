@@ -113,10 +113,11 @@
 						// @ts-ignore
 						return element === found_ethnicity_answers[index];
 					});
-				if (is_same) {
+				if (is_same && hasLoadedEthnicities) {
 					return;
 				}
 			}
+			hasLoadedEthnicities = false;
 
 			let found_user_ethnicities = await pb
 				.collection("user_ethnicities")
@@ -158,6 +159,7 @@
 
 	let found_map_answers: DBQuestion[] | undefined;
 	let found_ethnicity_answers: EthnicityQuestionResults | undefined;
+	let hasLoadedEthnicities = true;
 
 	async function load_questions() {
 		// Load map questions
