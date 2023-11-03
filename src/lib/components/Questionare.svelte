@@ -3,7 +3,11 @@
 	import * as store from "$lib/store";
 	import QuestionComponent from "$lib/components/QuestionComponent.svelte";
 	import { ClientResponseError } from "pocketbase";
-	import type { DBQuestion, QuestionResults } from "$lib/types";
+	import type {
+		DBQuestion,
+		QuestionResults,
+		UserEthnicityDBEntry,
+	} from "$lib/types";
 	import EthnicityChooser from "./EthnicityChooser.svelte";
 
 	export let autoCompleteService: google.maps.places.AutocompleteService;
@@ -94,6 +98,42 @@
 				questionUpdater(q, question_mapping[key as question_keys]);
 			});
 		}
+
+		store.ethnicity_results.subscribe(async (new_ethnicities) => {
+			if (!$currentUser) {
+				return;
+			}
+
+			let found_user_ethnicities = await pb
+				.collection("user_ethnicities")
+				.getFullList<UserEthnicityDBEntry>(); // automatically filtered because rule in db
+
+			for (const found_user_ethnicity of found_user_ethnicities) {
+				const isDeleted = await pb
+					.collection("user_ethnicities")
+					.delete(found_user_ethnicity.id);
+				if (!isDeleted) {
+					throw new Error(
+						"Could not delete user ethnicity entry successfully."
+					);
+				}
+			}
+
+			if (!new_ethnicities) {
+				return;
+			}
+
+			for (const newuser_ethnicity of new_ethnicities) {
+				const created = await pb
+					.collection("user_ethnicities")
+					.create<UserEthnicityDBEntry>({
+						parent_user: $currentUser.id,
+						ethnicity: newuser_ethnicity.id,
+					});
+
+				console.log("Created: ", created);
+			}
+		});
 	}
 
 	currentUser.subscribe(async (curr_user) => {

@@ -23,3 +23,8 @@ export interface Ethnicity extends RecordModel {
 }
 
 export type EthnicityQuestionResults = Ethnicity[];
+
+export interface UserEthnicityDBEntry extends RecordModel {
+	ethnicity: string;
+	parent_user: string;
+}
