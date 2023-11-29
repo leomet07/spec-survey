@@ -33,7 +33,7 @@
 	};
 
 	async function selectEthnicity(ethnicity: Ethnicity) {
-		if ($chosenEthnicities && $chosenEthnicities?.length >= 5) {
+		if ($chosenEthnicities && $chosenEthnicities?.length >= 10) {
 			// if already at 5 elements
 			return;
 		}
@@ -46,30 +46,29 @@
 	}
 	async function removeEthnicity(ethnicity: Ethnicity) {
 		$chosenEthnicities = $chosenEthnicities?.filter(
-			(v) => v.id !== ethnicity.id
+			(v) => v.id !== ethnicity.id,
 		);
 	}
 </script>
 
 <h2>{prompt}</h2>
 
+<label for="ethnicity_query">Choose up to 10 ethnicities...</label>
+{#if $chosenEthnicities && $chosenEthnicities?.length > 0}
+	<figure class="chosen_ethnicities">
+		{#each $chosenEthnicities as chosen, index}
+			<button
+				class="contrast outline chosen_ethnicity"
+				on:click={() => removeEthnicity(chosen)}>{chosen.name}</button
+			>
+		{/each}
+	</figure>
+{/if}
 <form
 	on:submit|preventDefault={() => {
 		debounce();
 	}}
 >
-	<label for="ethnicity_query">Choose up to 5 ethnicities...</label>
-	{#if $chosenEthnicities && $chosenEthnicities?.length > 0}
-		<figure class="chosen_ethnicities">
-			{#each $chosenEthnicities as chosen, index}
-				<button
-					class="contrast outline chosen_ethnicity"
-					on:click={() => removeEthnicity(chosen)}
-					>{chosen.name}</button
-				>
-			{/each}
-		</figure>
-	{/if}
 	<input
 		type="search"
 		name="ethnicity_query"
