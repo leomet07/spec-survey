@@ -17,14 +17,14 @@
 
 	async function questionUpdater(
 		questionStore: QuestionResults | undefined,
-		question_id: string
+		question_id: string,
 	) {
 		if (!$currentUser) {
 			return;
 		}
 
 		const matched_to_on_load = found_map_answers?.filter(
-			(v: any) => v.question_id == question_id
+			(v: any) => v.question_id == question_id,
 		);
 
 		if (
@@ -129,7 +129,7 @@
 					.delete(found_user_ethnicity.id);
 				if (!isDeleted) {
 					throw new Error(
-						"Could not delete user ethnicity entry successfully."
+						"Could not delete user ethnicity entry successfully.",
 					);
 				}
 			}
@@ -169,12 +169,12 @@
 
 		for (const found_answer of found_map_answers) {
 			let found_entry_in_store = Object.entries(question_mapping).filter(
-				(a) => a[1] == found_answer.question_id
+				(a) => a[1] == found_answer.question_id,
 			);
 			if (found_entry_in_store.length == 0) {
 				throw new Error(
 					"No store was found for database question_id of: " +
-						found_answer.question_id
+						found_answer.question_id,
 				);
 			}
 			store[found_entry_in_store[0][0] as question_keys].set({
@@ -192,11 +192,10 @@
 			.collection("user_ethnicities")
 			.getFullList<UserEthnicityDBEntry>({ expand: "ethnicity" }); // automatically filtered because rule in db
 
-		console.log("On load: ", db_found_ethnicity_answers);
 		found_ethnicity_answers = db_found_ethnicity_answers.map(function (v) {
 			return v?.expand?.ethnicity as Ethnicity;
 		});
-		console.log("On parse: ", found_ethnicity_answers);
+		// console.log("Ethnicies from DB on parse: ", found_ethnicity_answers);
 		store.ethnicity_results.set(found_ethnicity_answers);
 
 		listen_for_updates();

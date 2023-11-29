@@ -51,7 +51,25 @@
 	}
 </script>
 
-<h2>{prompt}</h2>
+<hgroup>
+	<h2>{prompt}</h2>
+	<p class="explainer">
+		The defenition of ethnicty that The Spectator is using for this survey
+		is
+		<a
+			href="https://www.scotpho.org.uk/population-groups/ethnic-minorities/defining-ethnicity-and-race/"
+			>the social group a person belongs to or identifies with as a result
+			of a mix of cultural and other factors including language, diet,
+			religion, ancestry, and physical features.</a
+		>
+	</p>
+	<p class="explainer">
+		Under this defenition, <i>ethnicity</i> is self-defined. In this survey,
+		induviduals may identify with more than one ethnic group and they are encouraged
+		to do select multiple ethnicities, ranging from broad descriptions to specific
+		ones.
+	</p>
+</hgroup>
 
 <label for="ethnicity_query">Choose up to 10 ethnicities...</label>
 {#if $chosenEthnicities && $chosenEthnicities?.length > 0}
@@ -76,7 +94,7 @@
 		bind:value={query}
 		bind:this={queryInput}
 		on:input={debounce}
-		placeholder="Asian, Swedish, etc..."
+		placeholder="Chinese, Swedish, etc..."
 	/>
 	{#if predictions.length > 0}
 		<ol>
@@ -101,5 +119,13 @@
 		display: inline;
 		padding-block: 0px;
 		max-width: 200px;
+	}
+	.explainer {
+		--color: var(--muted-color);
+		--font-weight: unset;
+		font-size: 1rem;
+		font-family: unset;
+		margin-top: 0;
+		margin-bottom: 0.25rem;
 	}
 </style>
