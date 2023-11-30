@@ -7,9 +7,9 @@
 		<h1>About The Spectator Demographics Survey</h1>
 		<p>
 			This survey aims to collect far more detailed information about the
-			demographics of the Stuyvesant student body and community than any
-			other survey has, including the yearly incoming Freshman survey by
-			The Spectator and the NYCDOE's census.
+			demographics of the Stuyvesant student body than other surveys, like
+			the yearly incoming Freshman survey by The Spectator and the
+			NYCDOE's enrollment data, have in the past.
 		</p>
 		<section>
 			<h2>Privacy</h2>
@@ -27,10 +27,28 @@
 			<h2>This website is open source</h2>
 			<p>
 				This website is free and open source - it's source code is free
-				and open source. <a
-					href="https://github.com/leomet07/spec-survey"
-					>It is available on GitHub.</a
+				and open source, under the <a
+					href="https://github.com/leomet07/spec-survey/blob/main/LICENSE"
+					>MIT license</a
+				>. It is
+				<a href="https://github.com/leomet07/spec-survey"
+					>available on GitHub.</a
 				>
+			</p>
+			<p>
+				Did you like this project? If so, <br /> Consider joining the
+				Spectator Web department. Email
+				<kbd>web [at] stuyspec [dot] com</kbd> to learn more.
+			</p>
+		</section>
+		<section>
+			<h2>Any issues?</h2>
+			<p>
+				Feel free to use the comment box within the survey itself or
+				send a message to the email above. For issues with the website, <a
+					href="https://github.com/leomet07/spec-survey/issues"
+					>file a bug report</a
+				>.
 			</p>
 		</section>
 		<footer>
