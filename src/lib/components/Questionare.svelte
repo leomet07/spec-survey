@@ -160,8 +160,14 @@
 	let found_map_answers: DBQuestion[] | undefined;
 	let found_ethnicity_answers: EthnicityQuestionResults | undefined;
 	let hasLoadedEthnicities = true;
+	let isSeperatedFromParents = false;
 
 	async function load_questions() {
+		// If not logged in, don't load questions
+		if (!$currentUser?.id) {
+			console.log("Not logged in so cannot load question data!");
+			return;
+		}
 		// Load map questions
 		found_map_answers = await pb
 			.collection("questions")
@@ -198,6 +204,9 @@
 		// console.log("Ethnicies from DB on parse: ", found_ethnicity_answers);
 		store.ethnicity_results.set(found_ethnicity_answers);
 
+		// Load isSeperatedFromParents
+		isSeperatedFromParents = !!$currentUser.isSeperatedFromParents;
+
 		listen_for_updates();
 	}
 
@@ -208,6 +217,7 @@
 		}
 		await pb.collection("users").update(current_user_id, {
 			hasSubmittedSurvey: true,
+			isSeperatedFromParents: isSeperatedFromParents,
 		});
 	}
 
@@ -295,6 +305,7 @@
 				type="checkbox"
 				id="isSeperatedFromParents"
 				name="isSeperatedFromParents"
+				bind:checked={isSeperatedFromParents}
 			/>
 			I was seperated from my parents / I don't know my parents
 		</label>
