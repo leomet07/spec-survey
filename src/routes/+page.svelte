@@ -48,7 +48,12 @@
 <header>
 	<hgroup>
 		<h1>The Spectator Demographics Survey</h1>
-		<h2>Answer as many or as few questions as you would like!</h2>
+		<h2>
+			The survey website of <a href="https://stuyspec.com"
+				>The Spectator</a
+			>, aiming to collect more detailed information about the
+			demographics of Stuyvesant. Answer as many questions as you can!
+		</h2>
 	</hgroup>
 </header>
 
@@ -59,7 +64,10 @@
 		>Logout</button
 	>
 {:else}
-	<p>You're not logged in</p>
+	<section>
+		<h4>You're not logged in right now!</h4>
+		<p>Make sure to sign in with your @stuy.edu email.</p>
+	</section>
 	<!-- On click to expand the accordian, user will either immedietely be redirected or will at least get the redirect url loaded for the button within the accordian -->
 	<!-- Why? Well the JS method worked on everything other than safari/ios browsers becaue they block JS from opening new tabs -->
 	<!-- So, we make the user open what JS was going to open if the user is on safari/ios -->
