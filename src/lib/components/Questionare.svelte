@@ -160,8 +160,9 @@
 	let found_map_answers: DBQuestion[] | undefined;
 	let found_ethnicity_answers: EthnicityQuestionResults | undefined;
 	let hasLoadedEthnicities = true;
-	let isSeperatedFromParents = false;
+	let isAdopted = false;
 	let didNotFeelRepresented = false;
+	let lacksInfo = false;
 
 	async function load_questions() {
 		// If not logged in, don't load questions
@@ -205,9 +206,10 @@
 		// console.log("Ethnicies from DB on parse: ", found_ethnicity_answers);
 		store.ethnicity_results.set(found_ethnicity_answers);
 
-		// Load isSeperatedFromParents
-		isSeperatedFromParents = !!$currentUser.isSeperatedFromParents;
+		// Load isAdopted
+		isAdopted = !!$currentUser.isAdopted;
 		didNotFeelRepresented = !!$currentUser.didNotFeelRepresented;
+		lacksInfo = !!$currentUser.lacksInfo;
 
 		listen_for_updates();
 	}
@@ -219,8 +221,9 @@
 		}
 		await pb.collection("users").update(current_user_id, {
 			hasSubmittedSurvey: true,
-			isSeperatedFromParents: isSeperatedFromParents,
+			isAdopted: isAdopted,
 			didNotFeelRepresented: didNotFeelRepresented,
+			lacksInfo: lacksInfo,
 		});
 	}
 
@@ -305,14 +308,24 @@
 			This data will NOT be shared publicly or published in our coverage
 			in any way.
 		</p>
-		<label for="isSeperatedFromParents">
+		<label for="isAdopted">
 			<input
 				type="checkbox"
-				id="isSeperatedFromParents"
-				name="isSeperatedFromParents"
-				bind:checked={isSeperatedFromParents}
+				id="isAdopted"
+				name="isAdopted"
+				bind:checked={isAdopted}
 			/>
-			I was seperated from my parents / I don't know my parents
+			I was adopted
+		</label>
+		<label for="lacksInfo">
+			<input
+				type="checkbox"
+				id="lacksInfo"
+				name="lacksInfo"
+				bind:checked={lacksInfo}
+			/>
+			I have no information about one or more family members mentioned in this
+			survey.
 		</label>
 	</section>
 
