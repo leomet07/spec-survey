@@ -88,7 +88,7 @@
 		bind:value={query}
 		bind:this={queryInput}
 		on:input={debounce}
-		placeholder="Chigago, Brooklyn, etc..."
+		placeholder="Chicago, Brooklyn, etc..."
 	/>
 	{#if predictions.length > 0}
 		<ol>

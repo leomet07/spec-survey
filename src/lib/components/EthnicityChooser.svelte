@@ -54,7 +54,7 @@
 <hgroup>
 	<h2>{prompt}</h2>
 	<p class="explainer">
-		The defenition of ethnicty that The Spectator is using for this survey
+		The definition of ethnicity that The Spectator is using for this survey
 		is
 		<a
 			href="https://www.scotpho.org.uk/population-groups/ethnic-minorities/defining-ethnicity-and-race/"
@@ -64,9 +64,9 @@
 		>
 	</p>
 	<p class="explainer">
-		Under this defenition, <i>ethnicity</i> is self-defined. In this survey,
-		induviduals may identify with more than one ethnic group and they are encouraged
-		to do select multiple ethnicities, ranging from broad descriptions to specific
+		Under this definition, <i>ethnicity</i> is self-defined. In this survey,
+		individuals may identify with more than one ethnic group and they are encouraged
+		to select multiple ethnicities, ranging from broad descriptions to specific
 		ones.
 	</p>
 </hgroup>
