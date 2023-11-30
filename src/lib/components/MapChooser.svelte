@@ -89,7 +89,7 @@
 <style>
 	@import "leaflet/dist/leaflet.css";
 	.map {
-		height: 600px;
+		height: 450px;
 	}
 
 	/* Override styles applied by pocketbase */
