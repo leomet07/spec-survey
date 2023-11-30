@@ -17,14 +17,14 @@
 
 	async function questionUpdater(
 		questionStore: QuestionResults | undefined,
-		question_id: string,
+		question_id: string
 	) {
 		if (!$currentUser) {
 			return;
 		}
 
 		const matched_to_on_load = found_map_answers?.filter(
-			(v: any) => v.question_id == question_id,
+			(v: any) => v.question_id == question_id
 		);
 
 		if (
@@ -129,7 +129,7 @@
 					.delete(found_user_ethnicity.id);
 				if (!isDeleted) {
 					throw new Error(
-						"Could not delete user ethnicity entry successfully.",
+						"Could not delete user ethnicity entry successfully."
 					);
 				}
 			}
@@ -161,6 +161,7 @@
 	let found_ethnicity_answers: EthnicityQuestionResults | undefined;
 	let hasLoadedEthnicities = true;
 	let isSeperatedFromParents = false;
+	let didNotFeelRepresented = false;
 
 	async function load_questions() {
 		// If not logged in, don't load questions
@@ -175,12 +176,12 @@
 
 		for (const found_answer of found_map_answers) {
 			let found_entry_in_store = Object.entries(question_mapping).filter(
-				(a) => a[1] == found_answer.question_id,
+				(a) => a[1] == found_answer.question_id
 			);
 			if (found_entry_in_store.length == 0) {
 				throw new Error(
 					"No store was found for database question_id of: " +
-						found_answer.question_id,
+						found_answer.question_id
 				);
 			}
 			store[found_entry_in_store[0][0] as question_keys].set({
@@ -206,6 +207,7 @@
 
 		// Load isSeperatedFromParents
 		isSeperatedFromParents = !!$currentUser.isSeperatedFromParents;
+		didNotFeelRepresented = !!$currentUser.didNotFeelRepresented;
 
 		listen_for_updates();
 	}
@@ -218,6 +220,7 @@
 		await pb.collection("users").update(current_user_id, {
 			hasSubmittedSurvey: true,
 			isSeperatedFromParents: isSeperatedFromParents,
+			didNotFeelRepresented: didNotFeelRepresented,
 		});
 	}
 
@@ -291,7 +294,9 @@
 		prompt="Where was your grandpa on your father's side born?"
 	/>
 
-	<section id="isSeperatedFromParentsSection">
+	<h2>Optional Questions</h2>
+
+	<section class="optional_question">
 		<h4>
 			Check the box below if you were seperated from your biological
 			parents or don't know them.
@@ -311,6 +316,19 @@
 		</label>
 	</section>
 
+	<section class="optional_question">
+		<h4>Did this survey lack an option that represented you?</h4>
+		<label for="didNotFeelRepresented">
+			<input
+				type="checkbox"
+				id="didNotFeelRepresented"
+				name="didNotFeelRepresented"
+				bind:checked={didNotFeelRepresented}
+			/>
+			I did not feel represented in the options of this survey.
+		</label>
+	</section>
+
 	<button on:click={submitSurvey}>Submit Survey</button>
 {:else}
 	<h2>Thanks for submitting the survey!</h2>
@@ -324,7 +342,7 @@
 		margin-bottom: 1rem;
 	}
 
-	#isSeperatedFromParentsSection h4 {
+	.optional_question h4 {
 		margin-bottom: 0.25rem;
 	}
 </style>
