@@ -227,6 +227,17 @@
 		prompt={"What ethnicities do you identify with?"}
 		chosenEthnicities={store.ethnicity_results}
 	/>
+	<hr />
+	<hgroup>
+		<h2>Ancestry questions</h2>
+		<p>
+			Ancestry is used in this survey to determine a person's "roots."
+			Specifically, this survey aims to determine the place of birth of a
+			person or their ancestors. Participants are encouraged to fill in
+			all fields, even if it is an approximate location. However, fields
+			may be left blank in case the response is unknown.
+		</p>
+	</hgroup>
 	<QuestionComponent
 		questionStore={store.q1_results}
 		{geocoder}
@@ -277,3 +288,9 @@
 		Unsubmit Survey
 	</button>
 {/if}
+
+<style scoped>
+	hr {
+		margin-bottom: 1rem;
+	}
+</style>
