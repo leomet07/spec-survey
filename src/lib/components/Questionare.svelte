@@ -281,6 +281,25 @@
 		prompt="Where was your grandpa on your father's side born?"
 	/>
 
+	<section id="isSeperatedFromParentsSection">
+		<h4>
+			Check the box below if you were seperated from your biological
+			parents or don't know them.
+		</h4>
+		<p class="explainer">
+			This data will NOT be shared publicly or published in our coverage
+			in any way.
+		</p>
+		<label for="isSeperatedFromParents">
+			<input
+				type="checkbox"
+				id="isSeperatedFromParents"
+				name="isSeperatedFromParents"
+			/>
+			I was seperated from my parents / I don't know my parents
+		</label>
+	</section>
+
 	<button on:click={submitSurvey}>Submit Survey</button>
 {:else}
 	<h2>Thanks for submitting the survey!</h2>
@@ -292,5 +311,9 @@
 <style scoped>
 	hr {
 		margin-bottom: 1rem;
+	}
+
+	#isSeperatedFromParentsSection h4 {
+		margin-bottom: 0.25rem;
 	}
 </style>

@@ -120,12 +120,4 @@
 		padding-block: 0px;
 		max-width: 200px;
 	}
-	.explainer {
-		--color: var(--muted-color);
-		--font-weight: unset;
-		font-size: 1rem;
-		font-family: unset;
-		margin-top: 0;
-		margin-bottom: 0.25rem;
-	}
 </style>

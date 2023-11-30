@@ -2,3 +2,12 @@ h1,
 h2 {
 	--typography-spacing-vertical: 1rem;
 }
+
+.explainer {
+	--color: var(--muted-color);
+	--font-weight: unset;
+	font-size: 1rem;
+	font-family: unset;
+	margin-top: 0;
+	margin-bottom: 0.25rem;
+}
