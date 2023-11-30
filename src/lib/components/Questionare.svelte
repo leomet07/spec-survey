@@ -163,6 +163,7 @@
 	let isAdopted = false;
 	let didNotFeelRepresented = false;
 	let lacksInfo = false;
+	let comments = "";
 
 	async function load_questions() {
 		// If not logged in, don't load questions
@@ -210,6 +211,7 @@
 		isAdopted = !!$currentUser.isAdopted;
 		didNotFeelRepresented = !!$currentUser.didNotFeelRepresented;
 		lacksInfo = !!$currentUser.lacksInfo;
+		comments = $currentUser.comments;
 
 		listen_for_updates();
 	}
@@ -224,6 +226,7 @@
 			isAdopted: isAdopted,
 			didNotFeelRepresented: didNotFeelRepresented,
 			lacksInfo: lacksInfo,
+			comments: comments,
 		});
 	}
 
@@ -340,6 +343,14 @@
 			/>
 			I did not feel represented in the options of this survey.
 		</label>
+		<textarea
+			placeholder="Enter any requests, comments, or feedback here."
+			name="comments"
+			id="comments_textarea"
+			cols="30"
+			rows="10"
+			bind:value={comments}
+		></textarea>
 	</section>
 
 	<button on:click={submitSurvey}>Submit Survey</button>
@@ -357,5 +368,9 @@
 
 	.optional_question h4 {
 		margin-bottom: 0.25rem;
+	}
+
+	.optional_question textarea {
+		margin-top: 0.25rem;
 	}
 </style>
