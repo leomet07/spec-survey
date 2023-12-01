@@ -30,7 +30,9 @@
 				shadowUrl: shadowUrl,
 			});
 
-			map = leaflet.map(mapElement).setView([40.718139, -74.013754], 2);
+			map = leaflet
+				.map(mapElement, { worldCopyJump: true })
+				.setView([40.718139, -74.013754], 2);
 
 			leaflet
 				.tileLayer(
@@ -38,7 +40,7 @@
 					{
 						attribution:
 							'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-					}
+					},
 				)
 				.addTo(map);
 
@@ -52,7 +54,7 @@
 				const results = response.results[0];
 				let address_components = results.address_components;
 				let political_address_components = address_components.filter(
-					(v) => v.types.includes("political")
+					(v) => v.types.includes("political"),
 				);
 
 				$chosenPlaceStore = { latlng, political_address_components };
