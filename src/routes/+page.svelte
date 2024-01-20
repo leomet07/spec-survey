@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GoogleSignInButton from "$lib/components/GoogleSignInButton.svelte";
 	import Questionare from "$lib/components/Questionare.svelte";
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { onMount } from "svelte";
@@ -80,10 +81,12 @@
 			on:keypress={loginWithGoogle}
 			tabindex="1">Sign in</summary
 		>
-		<a role="button" target="_blank" href={url}>Login with Google</a>
+		<GoogleSignInButton {url} />
 	</details>
 {/if}
 
 <section>
-	<a href="/privacy-policy" class="secondary">View this site's privacy policy</a>
+	<a href="/privacy-policy" class="secondary">
+		View this site's privacy policy
+	</a>
 </section>
