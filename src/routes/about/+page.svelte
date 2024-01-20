@@ -22,6 +22,8 @@
 				anonymously in bulk with other students. All other information
 				is private.
 			</p>
+			<p><a href="/privacy-policy">View this site's privacy policy</a></p>
+
 		</section>
 		<section>
 			<h2>This website is open source</h2>

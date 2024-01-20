@@ -83,3 +83,7 @@
 		<a role="button" target="_blank" href={url}>Login with Google</a>
 	</details>
 {/if}
+
+<section>
+	<a href="/privacy-policy" class="secondary">View this site's privacy policy</a>
+</section>
