@@ -36,24 +36,21 @@
 					{
 						attribution:
 							'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-					}
+					},
 				)
 				.addTo(map);
 
 			const public_answers = await pb
 				.collection("public_questions")
 				.getFullList();
-			console.log("Public answers: ", public_answers);
 
 			for (const public_answer of public_answers) {
-				console.log(
-					"Question id: ",
-					public_answer.question_id,
-					public_answer
-				);
 				let marker = leaflet
 					.marker({ lat: public_answer.lat, lng: public_answer.lng })
-					.addTo(map);
+					.addTo(map)
+					.addEventListener("click", (e) => {
+						console.log("Marker clicked: ", public_answer);
+					});
 			}
 		}
 	});
