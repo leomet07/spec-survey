@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { pb } from "$lib/pocketbase";
-	import type { LatLngSimple } from "$lib/types";
 	import { onMount } from "svelte";
 
-	import type { LatLng, LeafletMouseEvent, Map, Marker } from "leaflet";
+	import type { Map } from "leaflet";
 	import { browser } from "$app/environment";
-	import iconUrl from "$lib/leaflet_images/marker-icon.png";
-	import iconRetinaUrl from "$lib/leaflet_images/marker-icon-2x.png";
-	import shadowUrl from "$lib/leaflet_images/marker-shadow.png";
 
 	let mapElement: HTMLElement;
 	let map: Map;
@@ -19,16 +15,9 @@
 		if (browser) {
 			const leaflet = await import("leaflet");
 
-			// Hacky way to get around bundling of marker icon failing
-			// @ts-ignore
-			delete leaflet.Icon.Default.prototype._getIconUrl;
-			leaflet.Icon.Default.mergeOptions({
-				iconUrl: iconUrl,
-				iconRetinaUrl: iconRetinaUrl,
-				shadowUrl: shadowUrl,
-			});
-
-			map = leaflet.map(mapElement).setView([40.718139, -74.013754], 2);
+			map = leaflet
+				.map(mapElement, { preferCanvas: true })
+				.setView([40.718139, -74.013754], 2);
 
 			leaflet
 				.tileLayer(
@@ -46,7 +35,14 @@
 
 			for (const public_answer of public_answers) {
 				let marker = leaflet
-					.marker({ lat: public_answer.lat, lng: public_answer.lng })
+					.circleMarker(
+						// circle marker for better performance (cred: https://stackoverflow.com/a/43019740)
+						{ lat: public_answer.lat, lng: public_answer.lng },
+						{
+							radius: 5,
+							fillColor: "#006eff",
+						},
+					)
 					.addTo(map)
 					.addEventListener("click", (e) => {
 						console.log("Marker clicked: ", public_answer);
