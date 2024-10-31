@@ -11,6 +11,8 @@
 
 	let names: string[] = [];
 	let values: number[] = [];
+	let parent_names: string[] = [];
+	let parent_values: number[] = [];
 	import { Pie } from "svelte-chartjs";
 	import {
 		Chart as ChartJS,
@@ -23,6 +25,53 @@
 	} from "chart.js";
 
 	ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, Colors);
+
+	function return_Country_value_map(
+		public_answers: any[],
+		question_letter: string,
+	) {
+		const only_question_a = public_answers.filter(
+			(v) => v.question_id.toLowerCase() == question_letter,
+		);
+		const all_political_address_components = only_question_a.map(
+			(v) => v.political_address_components,
+		);
+
+		// const only_countries = all_political_address_components.map((v) => v.filter(j => j.types.includes("country")));
+		const only_countries = [];
+		for (
+			let index = 0;
+			index < all_political_address_components.length;
+			index++
+		) {
+			let political_address_component =
+				all_political_address_components[index];
+			let v = political_address_component.filter((j: any) =>
+				j.types.includes("country"),
+			);
+
+			if (v.length == 0) {
+				// no political address components
+				continue;
+			}
+
+			only_countries.push(v);
+		}
+		const only_country_names = only_countries.map((v) => v[0]?.short_name);
+
+		let country_name_to_number_map: Record<string, number> = {};
+
+		for (const country_name of only_country_names) {
+			if (country_name in country_name_to_number_map) {
+				country_name_to_number_map[country_name] += 1;
+			} else {
+				country_name_to_number_map[country_name] = 1;
+			}
+		}
+		const object_entry_map = Object.entries(country_name_to_number_map);
+		object_entry_map.sort((a, b) => b[1] - a[1]);
+		return object_entry_map;
+	}
 
 	onMount(async () => {
 		// pb.collection("public_questions").subscribe("*" , (public_answers) => {
@@ -64,52 +113,21 @@
 						console.log("Marker clicked: ", public_answer);
 					});
 			}
-			const only_question_a = public_answers.filter(
-				(v) => v.question_id.toLowerCase() == "a",
+
+			const object_entry_map = return_Country_value_map(
+				public_answers,
+				"a",
 			);
-			const all_political_address_components = only_question_a.map(
-				(v) => v.political_address_components,
+			const parent_object_entry_map = return_Country_value_map(
+				public_answers,
+				"b",
 			);
-
-			// const only_countries = all_political_address_components.map((v) => v.filter(j => j.types.includes("country")));
-			const only_countries = [];
-			for (
-				let index = 0;
-				index < all_political_address_components.length;
-				index++
-			) {
-				let political_address_component =
-					all_political_address_components[index];
-				let v = political_address_component.filter((j: any) =>
-					j.types.includes("country"),
-				);
-
-				if (v.length == 0) {
-					// no political address components
-					continue;
-				}
-
-				only_countries.push(v);
-			}
-			const only_country_names = only_countries.map(
-				(v) => v[0]?.short_name,
-			);
-
-			let country_name_to_number_map: Record<string, number> = {};
-
-			for (const country_name of only_country_names) {
-				if (country_name in country_name_to_number_map) {
-					country_name_to_number_map[country_name] += 1;
-				} else {
-					country_name_to_number_map[country_name] = 1;
-				}
-			}
-			const object_entry_map = Object.entries(country_name_to_number_map);
-			object_entry_map.sort((a, b) => b[1] - a[1]);
 			console.log(object_entry_map);
 
 			names = object_entry_map.map((a) => a[0]);
 			values = object_entry_map.map((a) => a[1]);
+			parent_names = parent_object_entry_map.map((a) => a[0]);
+			parent_values = parent_object_entry_map.map((a) => a[1]);
 
 			// console.log("192: ", only_country_names[192]);
 
@@ -125,17 +143,34 @@
 
 <div class="map" bind:this={mapElement} />
 
-<Pie
-	data={{
-		labels: names,
-		datasets: [
-			{
-				data: values,
-			},
-		],
-	}}
-	options={{ responsive: true }}
-/>
+<div class="pie-container">
+	<h2>Where students are born:</h2>
+	<Pie
+		data={{
+			labels: names,
+			datasets: [
+				{
+					data: values,
+				},
+			],
+		}}
+		options={{ responsive: true }}
+	/>
+</div>
+<div class="pie-container">
+	<h2>Where parents (#1) are from:</h2>
+	<Pie
+		data={{
+			labels: parent_names,
+			datasets: [
+				{
+					data: parent_values,
+				},
+			],
+		}}
+		options={{ responsive: true }}
+	/>
+</div>
 
 <style>
 	@import "leaflet/dist/leaflet.css";
@@ -163,5 +198,14 @@
 
 	:global(.leaflet-popup-close-button) {
 		padding: 0px !important;
+	}
+
+	.pie-container {
+		margin-top: 1rem;
+		max-width: 900px;
+		background-color: white;
+	}
+	.pie-container h2 {
+		color: black;
 	}
 </style>
